@@ -20,6 +20,8 @@ import {
 await ensureCorpusDirs();
 
 const clusterModel = getArg("--cluster-model") ?? process.env.AMKB_CLUSTER_MODEL ?? "gpt-5.5";
+const clusterReasoningEffort =
+  getArg("--cluster-reasoning-effort") ?? process.env.AMKB_CLUSTER_REASONING_EFFORT ?? "high";
 const all = hasFlag("--all");
 const force = hasFlag("--force");
 const retryFailed = hasFlag("--retry-failed");
@@ -90,6 +92,7 @@ for (const [category, items] of groups) {
   manifest.jobs[name] = {
     state: "running",
     model: clusterModel,
+    reasoningEffort: clusterReasoningEffort,
     promptVersion: clusterPromptVersion,
     category,
     candidateCount: selected.length,
@@ -102,6 +105,7 @@ for (const [category, items] of groups) {
 
   const response = await createOpenAIResponse({
     model: clusterModel,
+    reasoningEffort: clusterReasoningEffort,
     instructions: buildInstructions(category),
     input: JSON.stringify({
       category,
@@ -156,6 +160,7 @@ writeJson({
   ok: results.every((result) => result.ok || result.skipped || result.dryRun),
   dryRun,
   model: clusterModel,
+  reasoningEffort: clusterReasoningEffort,
   extractionCount: extractions.length,
   candidateCount: candidates.length,
   completed: results.filter((result) => result.ok).length,

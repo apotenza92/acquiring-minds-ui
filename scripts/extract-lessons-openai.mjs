@@ -7,6 +7,7 @@ const result = await createOpenAIResponse({
   instructions:
     "Extract broad ETA knowledge-base lessons from podcast transcript material. Return JSON only. Do not include transcript excerpts.",
   input: JSON.stringify(input),
+  reasoningEffort: process.env.OPENAI_REASONING_EFFORT ?? "medium",
 });
 
 if (!result.ok) {

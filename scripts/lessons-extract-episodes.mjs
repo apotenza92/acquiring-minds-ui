@@ -21,6 +21,8 @@ import {
 await ensureCorpusDirs();
 
 const episodeModel = getArg("--episode-model") ?? process.env.AMKB_EPISODE_MODEL ?? "gpt-5.5";
+const episodeReasoningEffort =
+  getArg("--episode-reasoning-effort") ?? process.env.AMKB_EPISODE_REASONING_EFFORT ?? "low";
 const episodeId = getArg("--episode-id");
 const all = hasFlag("--all");
 const force = hasFlag("--force");
@@ -102,6 +104,7 @@ async function extractEpisode(row) {
   manifest.jobs[row.id] = {
     state: "running",
     model: episodeModel,
+    reasoningEffort: episodeReasoningEffort,
     promptVersion: extractionPromptVersion,
     transcriptSource,
     chunkCount: chunks.length,
@@ -114,6 +117,7 @@ async function extractEpisode(row) {
 
   const response = await createOpenAIResponse({
     model: episodeModel,
+    reasoningEffort: episodeReasoningEffort,
     instructions: buildInstructions(),
     input: JSON.stringify({
       episode: compactEpisodeMetadata(document),
@@ -185,6 +189,7 @@ writeJson({
   ok: results.every((result) => result.ok || result.skipped || result.dryRun),
   dryRun,
   model: episodeModel,
+  reasoningEffort: episodeReasoningEffort,
   selected: selectedEpisodes.length,
   completed: results.filter((result) => result.ok).length,
   skipped: results.filter((result) => result.skipped).length,

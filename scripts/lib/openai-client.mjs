@@ -1,6 +1,8 @@
 import { hasFlag } from "./io.mjs";
 import { resolveOpenAIAuth } from "./openai-auth.mjs";
 
+export const reasoningEfforts = new Set(["none", "minimal", "low", "medium", "high", "xhigh"]);
+
 export function assertModelTransmissionAllowed() {
   if (hasFlag("--allow-transmit") || process.env.AMKB_ALLOW_TRANSMIT === "1") {
     return;
@@ -11,9 +13,25 @@ export function assertModelTransmissionAllowed() {
   );
 }
 
-export async function createOpenAIResponse({ instructions, input, model = process.env.OPENAI_MODEL || "gpt-5.5" }) {
+export function resolveReasoningEffort(value = process.env.OPENAI_REASONING_EFFORT || "medium") {
+  if (!reasoningEfforts.has(value)) {
+    throw new Error(
+      `Unsupported reasoning effort "${value}". Use one of: ${[...reasoningEfforts].join(", ")}.`,
+    );
+  }
+
+  return value;
+}
+
+export async function createOpenAIResponse({
+  instructions,
+  input,
+  model = process.env.OPENAI_MODEL || "gpt-5.5",
+  reasoningEffort = process.env.OPENAI_REASONING_EFFORT || "medium",
+}) {
   assertModelTransmissionAllowed();
   const auth = await resolveOpenAIAuth();
+  const effort = resolveReasoningEffort(reasoningEffort);
 
   if (!auth) {
     return {
@@ -31,6 +49,9 @@ export async function createOpenAIResponse({ instructions, input, model = proces
     },
     body: JSON.stringify({
       model,
+      reasoning: {
+        effort,
+      },
       instructions,
       input,
     }),
