@@ -24,8 +24,8 @@ describe("App", () => {
   it("shows article source evidence without transcript copy", () => {
     render(<App />);
 
-    expect(screen.getByLabelText("Source evidence")).toHaveTextContent("Joe Wynn");
-    expect(screen.getByLabelText("Source evidence")).toHaveTextContent("Transcript time 00:03:00");
+    expect(screen.getByLabelText("Source")).toHaveTextContent("Joe Wynn");
+    expect(screen.getByLabelText("Source")).toHaveTextContent("Discussed at around 3 minutes");
     expect(screen.queryByText(/Will Smith:/)).not.toBeInTheDocument();
   });
 });

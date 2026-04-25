@@ -5,7 +5,7 @@ test.describe("knowledge base UI", () => {
     await page.goto("/");
 
     await expect(page.getByRole("heading", { name: /buyer fit can become deal leverage/i })).toBeVisible();
-    await expect(page.getByLabel("Source evidence")).toBeVisible();
+    await expect(page.getByRole("region", { name: "Source", exact: true })).toBeVisible();
 
     const layout = await page.evaluate(() => {
       const styleOf = (selector: string) => {
@@ -44,9 +44,9 @@ test.describe("knowledge base UI", () => {
   test("shows source chips without transcript text and links to live source pages", async ({ page }) => {
     await page.goto("/");
 
-    const source = page.getByLabel("Source evidence").getByRole("link").first();
+    const source = page.getByRole("region", { name: "Source", exact: true }).getByRole("link").first();
     await expect(source).toContainText("Joe Wynn");
-    await expect(source).toContainText("Transcript time 00:03:00");
+    await expect(source).toContainText("Discussed at around 3 minutes");
 
     const href = await source.getAttribute("href");
     expect(href).toBe("https://acquiringminds.co/articles/joe-wynn-surgical-specialties");
@@ -59,6 +59,6 @@ test.describe("knowledge base UI", () => {
     await page.getByLabel("Search lessons").fill("liquidity");
 
     await expect(page.getByRole("heading", { name: /post-close liquidity/i })).toBeVisible();
-    await expect(page.getByLabel("Source evidence")).toBeVisible();
+    await expect(page.getByRole("region", { name: "Source", exact: true })).toBeVisible();
   });
 });

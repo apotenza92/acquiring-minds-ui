@@ -30,8 +30,8 @@ export function LessonDetail({ lesson, sources }: LessonDetailProps) {
       </div>
 
       {sources.length > 0 ? (
-        <section className="evidence-panel" aria-label="Source evidence">
-          <h2>Source evidence</h2>
+        <section className="evidence-panel" aria-label="Source">
+          <h2>Source</h2>
           <div className="source-list">
             {sources.map(({ episode, source }) => (
               <SourceChip
