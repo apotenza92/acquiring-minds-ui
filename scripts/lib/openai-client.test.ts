@@ -38,7 +38,8 @@ describe("OpenAI client safety gate", () => {
 
   it("validates supported reasoning efforts", () => {
     expect(resolveReasoningEffort("low")).toBe("low");
-    expect(resolveReasoningEffort("xhigh")).toBe("xhigh");
+    expect(resolveReasoningEffort("high")).toBe("high");
+    expect(() => resolveReasoningEffort("xhigh")).toThrow("Unsupported reasoning effort");
     expect(() => resolveReasoningEffort("lots")).toThrow("Unsupported reasoning effort");
   });
 

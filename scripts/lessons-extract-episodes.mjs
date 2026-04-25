@@ -30,7 +30,7 @@ const retryFailed = hasFlag("--retry-failed");
 const dryRun = hasFlag("--dry-run");
 const sample = getNumberArg("--sample", undefined);
 const limit = getNumberArg("--limit", undefined);
-const maxChunkChars = getNumberArg("--max-chunk-chars", 45_000);
+const maxChunkChars = getNumberArg("--max-chunk-chars", 90_000);
 const effectiveLimit = episodeId ? 1 : sample ?? limit ?? (all ? Number.POSITIVE_INFINITY : 20);
 
 const db = await openCorpusDb();
@@ -94,6 +94,7 @@ async function extractEpisode(row) {
       episodeId: row.id,
       dryRun: true,
       chunkCount: chunks.length,
+      maxChunkChars,
       transcriptChars,
       outputPath,
     };
@@ -108,6 +109,7 @@ async function extractEpisode(row) {
     promptVersion: extractionPromptVersion,
     transcriptSource,
     chunkCount: chunks.length,
+    maxChunkChars,
     transcriptChars,
     attempts: Number(manifest.jobs?.[row.id]?.attempts ?? 0) + 1,
     startedAt,
@@ -158,6 +160,7 @@ async function extractEpisode(row) {
     ok: true,
     outputPath,
     chunkCount: chunks.length,
+    maxChunkChars,
     transcriptChars,
     lessonCandidates: extraction.lessonCandidates.length,
     notableClaims: extraction.notableClaims.length,

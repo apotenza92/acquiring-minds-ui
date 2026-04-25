@@ -1,7 +1,7 @@
 import { hasFlag } from "./io.mjs";
 import { resolveOpenAIAuth } from "./openai-auth.mjs";
 
-export const reasoningEfforts = new Set(["none", "minimal", "low", "medium", "high", "xhigh"]);
+export const reasoningEfforts = new Set(["none", "minimal", "low", "medium", "high"]);
 
 export function assertModelTransmissionAllowed() {
   if (hasFlag("--allow-transmit") || process.env.AMKB_ALLOW_TRANSMIT === "1") {

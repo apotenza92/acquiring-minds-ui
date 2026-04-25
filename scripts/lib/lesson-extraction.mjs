@@ -66,7 +66,7 @@ export function compactEpisodeMetadata(document) {
 }
 
 export function buildTranscriptChunks(document, options = {}) {
-  const maxChars = options.maxChars ?? 45_000;
+  const maxChars = options.maxChars ?? 90_000;
   const chunks = [];
   let current = [];
   let currentChars = 0;
