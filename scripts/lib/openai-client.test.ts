@@ -1,8 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   assertModelTransmissionAllowed,
+  buildCodexCliArgs,
   createOpenAIResponse,
   isFatalOpenAIAuthError,
+  resolveLlmProvider,
   resolveReasoningEffort,
 } from "./openai-client.mjs";
 
@@ -16,6 +18,8 @@ afterEach(() => {
   delete process.env.OPENAI_REASONING_EFFORT;
   delete process.env.AMKB_OPENAI_AUTH_FILE;
   delete process.env.CODEX_AUTH_FILE;
+  delete process.env.AMKB_LLM_PROVIDER;
+  delete process.env.AMKB_CODEX_CLI_TIMEOUT_MS;
 });
 
 describe("OpenAI client safety gate", () => {
@@ -48,10 +52,45 @@ describe("OpenAI client safety gate", () => {
     expect(() => resolveReasoningEffort("lots")).toThrow("Unsupported reasoning effort");
   });
 
+  it("validates supported LLM providers and aliases", () => {
+    expect(resolveLlmProvider("openai_api")).toBe("openai_api");
+    expect(resolveLlmProvider("api")).toBe("openai_api");
+    expect(resolveLlmProvider("codex")).toBe("codex_cli");
+    expect(resolveLlmProvider("codex_cli")).toBe("codex_cli");
+    expect(() => resolveLlmProvider("browser")).toThrow("Unsupported LLM provider");
+  });
+
   it("treats OpenAI auth and permission failures as fatal", () => {
     expect(isFatalOpenAIAuthError({ status: 401 })).toBe(true);
     expect(isFatalOpenAIAuthError({ status: 403 })).toBe(true);
+    expect(isFatalOpenAIAuthError({ fatal: true })).toBe(true);
     expect(isFatalOpenAIAuthError({ status: 429 })).toBe(false);
+  });
+
+  it("builds a read-only Codex CLI extraction command", () => {
+    expect(
+      buildCodexCliArgs({
+        model: "gpt-5.5",
+        reasoningEffort: "low",
+        outputPath: "/tmp/result.json",
+      }),
+    ).toEqual([
+      "exec",
+      "--ephemeral",
+      "--json",
+      "--color",
+      "never",
+      "-m",
+      "gpt-5.5",
+      "-c",
+      'model_reasoning_effort="low"',
+      "--sandbox",
+      "read-only",
+      "--skip-git-repo-check",
+      "--output-last-message",
+      "/tmp/result.json",
+      "-",
+    ]);
   });
 
   it("sends reasoning effort with Responses API requests", async () => {

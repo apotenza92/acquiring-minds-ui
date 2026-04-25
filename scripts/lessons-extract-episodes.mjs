@@ -23,6 +23,7 @@ await ensureCorpusDirs();
 const episodeModel = getArg("--episode-model") ?? process.env.AMKB_EPISODE_MODEL ?? "gpt-5.5";
 const episodeReasoningEffort =
   getArg("--episode-reasoning-effort") ?? process.env.AMKB_EPISODE_REASONING_EFFORT ?? "low";
+const llmProvider = getArg("--llm-provider") ?? process.env.AMKB_LLM_PROVIDER ?? "openai_api";
 const episodeId = getArg("--episode-id");
 const all = hasFlag("--all");
 const force = hasFlag("--force");
@@ -65,8 +66,10 @@ function buildInstructions() {
     `Use schemaVersion \"1\" and promptVersion \"${extractionPromptVersion}\".`,
     "The output object must include: schemaVersion, promptVersion, episode, businessProfile, acquisitionProfile, operatingProfile, risks, notableClaims, lessonCandidates.",
     "businessProfile, acquisitionProfile, and operatingProfile should be compact objects with useful fields and arrays when appropriate.",
+    "risks must be an array of plain strings only. Do not return risk objects.",
     "notableClaims must be an array of {id, claim, confidence, evidence}.",
     "lessonCandidates must be an array of {id, title, category, summary, playbook, tags, confidence, evidence}.",
+    "Each lesson candidate summary should be 2-4 useful sentences. Each playbook should contain 3-6 operational notes as strings, with enough detail to be useful without quoting the transcript.",
     "category must be one of: buyer-fit, sourcing, deal-evaluation, financing-terms, due-diligence, closing-transition, operating, growth, risk-failure, exit-long-term-hold.",
     "confidence must be low, medium, or high.",
     "Every evidence item must include episodeId, timestamp, optional end, sourceProvider, officialUrl, optional youtubeUrl, optional audioUrl.",
@@ -104,6 +107,7 @@ async function extractEpisode(row) {
   manifest.jobs ??= {};
   manifest.jobs[row.id] = {
     state: "running",
+    provider: llmProvider,
     model: episodeModel,
     reasoningEffort: episodeReasoningEffort,
     promptVersion: extractionPromptVersion,
@@ -120,6 +124,7 @@ async function extractEpisode(row) {
   const response = await createOpenAIResponse({
     model: episodeModel,
     reasoningEffort: episodeReasoningEffort,
+    provider: llmProvider,
     instructions: buildInstructions(),
     input: JSON.stringify({
       episode: compactEpisodeMetadata(document),
@@ -199,6 +204,7 @@ writeJson({
   dryRun,
   model: episodeModel,
   reasoningEffort: episodeReasoningEffort,
+  provider: llmProvider,
   selected: selectedEpisodes.length,
   completed: results.filter((result) => result.ok).length,
   skipped: results.filter((result) => result.skipped).length,

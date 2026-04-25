@@ -22,6 +22,7 @@ await ensureCorpusDirs();
 const clusterModel = getArg("--cluster-model") ?? process.env.AMKB_CLUSTER_MODEL ?? "gpt-5.5";
 const clusterReasoningEffort =
   getArg("--cluster-reasoning-effort") ?? process.env.AMKB_CLUSTER_REASONING_EFFORT ?? "high";
+const llmProvider = getArg("--llm-provider") ?? process.env.AMKB_LLM_PROVIDER ?? "openai_api";
 const all = hasFlag("--all");
 const force = hasFlag("--force");
 const retryFailed = hasFlag("--retry-failed");
@@ -91,6 +92,7 @@ for (const [category, items] of groups) {
   manifest.jobs ??= {};
   manifest.jobs[name] = {
     state: "running",
+    provider: llmProvider,
     model: clusterModel,
     reasoningEffort: clusterReasoningEffort,
     promptVersion: clusterPromptVersion,
@@ -106,6 +108,7 @@ for (const [category, items] of groups) {
   const response = await createOpenAIResponse({
     model: clusterModel,
     reasoningEffort: clusterReasoningEffort,
+    provider: llmProvider,
     instructions: buildInstructions(category),
     input: JSON.stringify({
       category,
@@ -166,6 +169,7 @@ writeJson({
   dryRun,
   model: clusterModel,
   reasoningEffort: clusterReasoningEffort,
+  provider: llmProvider,
   extractionCount: extractions.length,
   candidateCount: candidates.length,
   completed: results.filter((result) => result.ok).length,
