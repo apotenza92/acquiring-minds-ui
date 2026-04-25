@@ -1,0 +1,16 @@
+.DS_Store
+node_modules/
+dist/
+.corpus/
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+*.db-shm
+*.db-wal
+auth.json
+cookies.txt
+*.cookies.txt

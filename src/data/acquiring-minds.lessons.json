@@ -1,0 +1,207 @@
+{
+  "podcast": {
+    "id": "acquiring-minds",
+    "title": "Acquiring Minds",
+    "host": "Will Smith",
+    "officialUrl": "https://acquiringminds.co",
+    "episodeIndexUrl": "https://acquiringminds.co/episodes",
+    "adapters": ["official-acquiring-minds", "youtube-captions"]
+  },
+  "episodes": [
+    {
+      "id": "joe-wynn-surgical-specialties",
+      "podcastId": "acquiring-minds",
+      "title": "How Business-Buyer Fit Led to 2.2x and No PG",
+      "guest": "Joe Wynn",
+      "date": "2026-04-16",
+      "officialUrl": "https://acquiringminds.co/articles/joe-wynn-surgical-specialties",
+      "transcriptAvailability": "official"
+    },
+    {
+      "id": "scott-alexander-jairus-marketing",
+      "podcastId": "acquiring-minds",
+      "title": "Rebuilding from 80% Collapse to Mid-7 Figures Revenue",
+      "guest": "Scott Alexander",
+      "date": "2025-05-22",
+      "officialUrl": "https://acquiringminds.co/articles/scott-alexander-jairus-marketing",
+      "transcriptAvailability": "summary-only"
+    },
+    {
+      "id": "eric-donahue-paving",
+      "podcastId": "acquiring-minds",
+      "title": "40% Growth in Year 1 of a Paving Business",
+      "guest": "Eric Donahue",
+      "date": "2026-03-23",
+      "officialUrl": "https://acquiringminds.co/articles/eric-donahue-paving",
+      "transcriptAvailability": "official"
+    },
+    {
+      "id": "phil-koller-comfortable-concentration",
+      "podcastId": "acquiring-minds",
+      "title": "Comfortable Concentration for a $800k SDE Business",
+      "guest": "Phil Koller",
+      "date": "2026-01-08",
+      "officialUrl": "https://acquiringminds.co/articles/phil-koller-comfortable-concentration",
+      "transcriptAvailability": "official"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "buyer-fit-creates-negotiating-leverage",
+      "title": "Buyer fit can become deal leverage",
+      "category": "buyer-fit",
+      "summary": "A buyer with direct industry credibility can reduce perceived transition risk for sellers, suppliers, lenders, and key customers. That credibility can translate into better terms when the market for qualified buyers is thin.",
+      "playbook": [
+        "Map the supplier, customer, licence, and technical requirements that make a business hard for generic buyers.",
+        "Turn relevant career experience into a transition-risk argument before negotiating price or structure.",
+        "Use third-party validation from suppliers or customers as evidence that continuity risk is low."
+      ],
+      "tags": ["industry experience", "seller financing", "supplier trust"],
+      "evidence": [
+        {
+          "episodeId": "joe-wynn-surgical-specialties",
+          "timestamp": "00:03:00",
+          "officialUrl": "https://acquiringminds.co/articles/joe-wynn-surgical-specialties"
+        }
+      ]
+    },
+    {
+      "id": "underwrite-lumpy-revenue-conservatively",
+      "title": "Treat lumpy project revenue as lower-quality earnings",
+      "category": "deal-evaluation",
+      "summary": "High SDE is less persuasive when revenue depends on uneven projects. A buyer should separate recurring or repeatable work from one-off project income and value the business on a conservative earnings base.",
+      "playbook": [
+        "Split revenue into project, service, recurring, and repeat purchase lines before deciding on the multiple.",
+        "Use historical volatility to set the underwriting SDE, not only the seller's latest strong year.",
+        "Identify controllable revenue streams that can stabilise cash flow after close."
+      ],
+      "tags": ["quality of earnings", "project revenue", "recurring revenue"],
+      "evidence": [
+        {
+          "episodeId": "joe-wynn-surgical-specialties",
+          "timestamp": "00:28:21",
+          "officialUrl": "https://acquiringminds.co/articles/joe-wynn-surgical-specialties"
+        }
+      ]
+    },
+    {
+      "id": "seller-financing-can-reprice-risk",
+      "title": "Structure can be more important than headline price",
+      "category": "financing-terms",
+      "summary": "Seller notes, amortisation, working capital, guarantees, and cash at close can change the real risk profile of a purchase. A moderate price can become attractive when the structure protects the buyer's liquidity.",
+      "playbook": [
+        "Compare offers by cash at close, repayment schedule, guarantee exposure, and working capital delivered.",
+        "Ask whether the seller's confidence can be expressed through a note rather than only price concessions.",
+        "Model the first ninety days of cash needs before accepting a thin closing balance."
+      ],
+      "tags": ["seller note", "working capital", "personal guarantee"],
+      "evidence": [
+        {
+          "episodeId": "joe-wynn-surgical-specialties",
+          "timestamp": "00:37:13",
+          "officialUrl": "https://acquiringminds.co/articles/joe-wynn-surgical-specialties"
+        }
+      ]
+    },
+    {
+      "id": "supplier-concentration-needs-active-comfort",
+      "title": "Supplier concentration is a diligence topic, not an automatic pass",
+      "category": "due-diligence",
+      "summary": "Distribution and sales-channel businesses often depend on a major supplier. The buyer's job is to understand the relationship, renewal risk, market position, and realistic diversification paths.",
+      "playbook": [
+        "Meet the supplier directly and test whether they support the buyer as the future operator.",
+        "Distinguish structural concentration from avoidable concentration.",
+        "Look for adjacent products that can be sold through the same customer relationships without distracting the team."
+      ],
+      "tags": ["supplier concentration", "distribution", "diligence"],
+      "evidence": [
+        {
+          "episodeId": "joe-wynn-surgical-specialties",
+          "timestamp": "00:32:15",
+          "officialUrl": "https://acquiringminds.co/articles/joe-wynn-surgical-specialties"
+        }
+      ]
+    },
+    {
+      "id": "post-close-liquidity-is-operational-risk",
+      "title": "Post-close liquidity is not administrative detail",
+      "category": "closing-transition",
+      "summary": "A newly acquired company can run into payment, payroll, bank-account, or receivables disruption immediately after close. Buyers should plan transition liquidity as an operating risk, not a clerical afterthought.",
+      "playbook": [
+        "Prepare backup liquidity for payroll, vendor payments, and delayed customer receipts.",
+        "Confirm banking, merchant, payroll, and receivables workflows before closing day.",
+        "Treat the first month as a stress test of systems, not a normal operating period."
+      ],
+      "tags": ["liquidity", "transition", "payroll"],
+      "evidence": [
+        {
+          "episodeId": "joe-wynn-surgical-specialties",
+          "timestamp": "00:47:00",
+          "officialUrl": "https://acquiringminds.co/articles/joe-wynn-surgical-specialties"
+        }
+      ]
+    },
+    {
+      "id": "recurring-revenue-still-needs-quality-tests",
+      "title": "Recurring revenue is only valuable if it is durable",
+      "category": "risk-failure",
+      "summary": "Revenue that repeats can still be fragile if customers are unhappy, concentration is high, fulfilment is weak, or invoices are disputed. Buyers should test quality before giving recurring revenue full credit.",
+      "playbook": [
+        "Interview customers around satisfaction, switching risk, and unpaid invoices.",
+        "Check churn, complaints, service delivery, and renewal mechanics together.",
+        "Avoid treating repetition as proof of customer love."
+      ],
+      "tags": ["recurring revenue", "customer risk", "turnaround"],
+      "evidence": [
+        {
+          "episodeId": "scott-alexander-jairus-marketing",
+          "timestamp": "00:20:00",
+          "officialUrl": "https://acquiringminds.co/articles/scott-alexander-jairus-marketing"
+        }
+      ]
+    },
+    {
+      "id": "first-year-growth-can-come-from-simple-controls",
+      "title": "Early growth often comes from basic operating controls",
+      "category": "operating",
+      "summary": "Small businesses may have obvious operational gaps: pricing left untouched, weak follow-up, loose service processes, or underused maintenance offers. A new owner can create momentum by tightening fundamentals before adding complexity.",
+      "playbook": [
+        "Look for price increases the old owner avoided despite clear market support.",
+        "Convert ad hoc service work into repeatable agreements where customers accept the model.",
+        "Prioritise changes that improve cash flow and delivery consistency together."
+      ],
+      "tags": ["pricing", "service agreements", "first year"],
+      "evidence": [
+        {
+          "episodeId": "joe-wynn-surgical-specialties",
+          "timestamp": "00:29:06",
+          "officialUrl": "https://acquiringminds.co/articles/joe-wynn-surgical-specialties"
+        },
+        {
+          "episodeId": "eric-donahue-paving",
+          "timestamp": "00:35:00",
+          "officialUrl": "https://acquiringminds.co/articles/eric-donahue-paving"
+        }
+      ]
+    },
+    {
+      "id": "concentration-can-be-comfortable-when-it-is-understood",
+      "title": "Concentration risk can be acceptable when the operating thesis fits it",
+      "category": "risk-failure",
+      "summary": "A concentrated customer, supplier, product, or geography is not always disqualifying. It becomes more investable when the buyer understands the dependency, its history, and the practical levers for reducing fragility.",
+      "playbook": [
+        "Name the concentration clearly instead of burying it in the model.",
+        "Decide whether the concentration is a moat, a weakness, or both.",
+        "Build a focused mitigation plan that does not undermine the original business model."
+      ],
+      "tags": ["concentration", "risk", "underwriting"],
+      "evidence": [
+        {
+          "episodeId": "phil-koller-comfortable-concentration",
+          "timestamp": "00:10:00",
+          "officialUrl": "https://acquiringminds.co/articles/phil-koller-comfortable-concentration"
+        }
+      ]
+    }
+  ]
+}
