@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { ensureCorpusDirs } from "./lib/corpus.mjs";
-import { createOpenAIResponse } from "./lib/openai-client.mjs";
+import { createOpenAIResponse, isFatalOpenAIAuthError } from "./lib/openai-client.mjs";
 import { getArg, getNumberArg, hasFlag, nowIso, writeJson, writeJsonFile } from "./lib/io.mjs";
 import {
   clusterFileName,
@@ -115,14 +115,19 @@ for (const [category, items] of groups) {
   });
 
   if (!response.ok) {
+    const fatal = isFatalOpenAIAuthError(response);
     manifest.jobs[name] = {
       ...manifest.jobs[name],
       state: "failed",
       failureReason: response.reason ?? response.status ?? "OpenAI request failed",
+      fatal,
       completedAt: nowIso(),
     };
     await writeJobManifest(manifestPath, manifest);
-    results.push({ category, ok: false, response });
+    results.push({ category, ok: false, fatal, response });
+    if (fatal) {
+      break;
+    }
     continue;
   }
 

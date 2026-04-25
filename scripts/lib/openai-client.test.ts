@@ -1,5 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { assertModelTransmissionAllowed, createOpenAIResponse, resolveReasoningEffort } from "./openai-client.mjs";
+import {
+  assertModelTransmissionAllowed,
+  createOpenAIResponse,
+  isFatalOpenAIAuthError,
+  resolveReasoningEffort,
+} from "./openai-client.mjs";
 
 const originalFetch = globalThis.fetch;
 
@@ -41,6 +46,12 @@ describe("OpenAI client safety gate", () => {
     expect(resolveReasoningEffort("high")).toBe("high");
     expect(() => resolveReasoningEffort("xhigh")).toThrow("Unsupported reasoning effort");
     expect(() => resolveReasoningEffort("lots")).toThrow("Unsupported reasoning effort");
+  });
+
+  it("treats OpenAI auth and permission failures as fatal", () => {
+    expect(isFatalOpenAIAuthError({ status: 401 })).toBe(true);
+    expect(isFatalOpenAIAuthError({ status: 403 })).toBe(true);
+    expect(isFatalOpenAIAuthError({ status: 429 })).toBe(false);
   });
 
   it("sends reasoning effort with Responses API requests", async () => {

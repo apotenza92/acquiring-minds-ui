@@ -2,7 +2,7 @@
 import { existsSync } from "node:fs";
 import { ensureCorpusDirs } from "./lib/corpus.mjs";
 import { getTranscriptDocument, openCorpusDb } from "./lib/corpus-db.mjs";
-import { createOpenAIResponse } from "./lib/openai-client.mjs";
+import { createOpenAIResponse, isFatalOpenAIAuthError } from "./lib/openai-client.mjs";
 import { getArg, getNumberArg, hasFlag, nowIso, writeJson, writeJsonFile } from "./lib/io.mjs";
 import {
   buildTranscriptChunks,
@@ -133,14 +133,16 @@ async function extractEpisode(row) {
   });
 
   if (!response.ok) {
+    const fatal = isFatalOpenAIAuthError(response);
     manifest.jobs[row.id] = {
       ...manifest.jobs[row.id],
       state: "failed",
       failureReason: response.reason ?? response.status ?? "OpenAI request failed",
+      fatal,
       completedAt: nowIso(),
     };
     await writeJobManifest(manifestPath, manifest);
-    return { episodeId: row.id, ok: false, response };
+    return { episodeId: row.id, ok: false, fatal, response };
   }
 
   const parsed = parseJsonOutput(response.outputText);
@@ -183,6 +185,10 @@ for (const episode of selectedEpisodes) {
     };
     await writeJobManifest(manifestPath, manifest);
     results.push({ episodeId: episode.id, ok: false, error: error.message });
+  }
+
+  if (results.at(-1)?.fatal) {
+    break;
   }
 }
 

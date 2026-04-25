@@ -23,6 +23,10 @@ export function resolveReasoningEffort(value = process.env.OPENAI_REASONING_EFFO
   return value;
 }
 
+export function isFatalOpenAIAuthError(result) {
+  return result?.status === 401 || result?.status === 403;
+}
+
 export async function createOpenAIResponse({
   instructions,
   input,
