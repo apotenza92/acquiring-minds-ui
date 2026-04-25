@@ -21,11 +21,11 @@ describe("App", () => {
     expect(screen.getByRole("heading", { name: /post-close liquidity/i })).toBeInTheDocument();
   });
 
-  it("shows source chips without transcript copy", () => {
+  it("shows article source evidence without transcript copy", () => {
     render(<App />);
 
-    expect(screen.getByLabelText("Visible source evidence")).toHaveTextContent("Joe Wynn");
-    expect(screen.getByLabelText("Visible source evidence")).toHaveTextContent("00:03:00");
+    expect(screen.getByLabelText("Source evidence")).toHaveTextContent("Joe Wynn");
+    expect(screen.getByLabelText("Source evidence")).toHaveTextContent("Transcript time 00:03:00");
     expect(screen.queryByText(/Will Smith:/)).not.toBeInTheDocument();
   });
 });

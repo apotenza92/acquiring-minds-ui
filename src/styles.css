@@ -106,7 +106,7 @@ a {
 
 .workspace {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr);
   min-width: 0;
   min-height: 0;
   height: 100vh;
@@ -258,25 +258,32 @@ a {
   font-size: 0.78rem;
 }
 
-.footnote {
-  z-index: 10;
-  display: flex;
+.evidence-panel {
+  max-width: 740px;
+  margin-top: 42px;
+  padding-top: 24px;
+  border-top: 1px solid #ddd7cc;
+}
+
+.evidence-panel h2 {
+  margin: 0 0 14px;
+  color: #263229;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.source-list {
+  display: grid;
   gap: 10px;
-  overflow-x: auto;
-  min-height: 76px;
-  max-height: 108px;
-  padding: 12px 24px;
-  border-top: 1px solid #d8d4ca;
-  background: #f7f5f0;
 }
 
 .source-chip {
   display: grid;
-  grid-template-columns: minmax(160px, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   column-gap: 8px;
-  min-width: 260px;
-  max-width: 360px;
+  row-gap: 4px;
+  width: 100%;
   padding: 10px 12px;
   border: 1px solid #d0cabe;
   border-radius: 6px;
@@ -293,10 +300,16 @@ a {
 .source-chip strong {
   overflow: hidden;
   color: #263229;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.source-chip small {
+  grid-column: 1 / -1;
+  color: #52645a;
+  font-size: 0.76rem;
 }
 
 .source-chip svg {

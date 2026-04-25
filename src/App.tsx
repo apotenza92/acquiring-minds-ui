@@ -3,7 +3,6 @@ import { useMemo, useState } from "react";
 import { CategoryRail } from "./components/CategoryRail";
 import { LessonDetail } from "./components/LessonDetail";
 import { LessonList } from "./components/LessonList";
-import { SourceChip } from "./components/SourceChip";
 import { categories } from "./data/categories";
 import { getEpisodeById, knowledgeBase, searchLessons } from "./domain/knowledgeBase";
 import type { LessonCategoryId } from "./domain/types";
@@ -23,6 +22,12 @@ export default function App() {
 
   const selectedLesson =
     filteredLessons.find((lesson) => lesson.id === selectedLessonId) ?? filteredLessons[0];
+
+  const selectedSources =
+    selectedLesson?.evidence.flatMap((source) => {
+      const episode = getEpisodeById(source.episodeId);
+      return episode ? [{ episode, source }] : [];
+    }) ?? [];
 
   const categoryCounts = useMemo(() => {
     const counts = new Map<SelectedCategory, number>([["all", knowledgeBase.lessons.length]]);
@@ -81,22 +86,13 @@ export default function App() {
           />
 
           {selectedLesson ? (
-            <LessonDetail lesson={selectedLesson} />
+            <LessonDetail lesson={selectedLesson} sources={selectedSources} />
           ) : (
             <section className="empty-state" aria-live="polite">
               No lessons found.
             </section>
           )}
         </div>
-
-        <footer className="footnote" aria-label="Visible source evidence">
-          {selectedLesson?.evidence.map((source) => {
-            const episode = getEpisodeById(source.episodeId);
-            return episode ? (
-              <SourceChip key={`${source.episodeId}-${source.timestamp}`} episode={episode} source={source} />
-            ) : null;
-          })}
-        </footer>
       </section>
     </main>
   );
