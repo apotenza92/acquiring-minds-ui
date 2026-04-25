@@ -11,7 +11,7 @@ export function assertModelTransmissionAllowed() {
   );
 }
 
-export async function createOpenAIResponse({ instructions, input, model = process.env.OPENAI_MODEL || "gpt-5.2" }) {
+export async function createOpenAIResponse({ instructions, input, model = process.env.OPENAI_MODEL || "gpt-5.5" }) {
   assertModelTransmissionAllowed();
   const auth = await resolveOpenAIAuth();
 

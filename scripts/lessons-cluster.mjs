@@ -19,7 +19,7 @@ import {
 
 await ensureCorpusDirs();
 
-const clusterModel = getArg("--cluster-model") ?? process.env.AMKB_CLUSTER_MODEL ?? "gpt-5.2";
+const clusterModel = getArg("--cluster-model") ?? process.env.AMKB_CLUSTER_MODEL ?? "gpt-5.5";
 const all = hasFlag("--all");
 const force = hasFlag("--force");
 const retryFailed = hasFlag("--retry-failed");

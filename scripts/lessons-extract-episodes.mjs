@@ -20,7 +20,7 @@ import {
 
 await ensureCorpusDirs();
 
-const episodeModel = getArg("--episode-model") ?? process.env.AMKB_EPISODE_MODEL ?? "gpt-5.4-mini";
+const episodeModel = getArg("--episode-model") ?? process.env.AMKB_EPISODE_MODEL ?? "gpt-5.5";
 const episodeId = getArg("--episode-id");
 const all = hasFlag("--all");
 const force = hasFlag("--force");

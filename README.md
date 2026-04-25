@@ -150,8 +150,8 @@ npm run lessons:cluster -- --sample 20 --allow-transmit
 npm run lessons:promote -- --input .corpus/acquiring-minds/extractions/reviewed-lessons.json
 ```
 
-`lessons:extract-episodes` reads transcript segments from SQLite, chunks each episode, and writes one structured extraction JSON per episode under `.corpus/acquiring-minds/extractions/episodes/`. It supports `--episode-id`, `--sample`, `--limit`, `--all`, `--force`, `--retry-failed`, `--dry-run`, and `--episode-model`. The default episode model is `AMKB_EPISODE_MODEL` or `gpt-5.4-mini`.
+`lessons:extract-episodes` reads transcript segments from SQLite, chunks each episode, and writes one structured extraction JSON per episode under `.corpus/acquiring-minds/extractions/episodes/`. It supports `--episode-id`, `--sample`, `--limit`, `--all`, `--force`, `--retry-failed`, `--dry-run`, and `--episode-model`. The default episode model is `AMKB_EPISODE_MODEL` or `gpt-5.5`.
 
-`lessons:cluster` reads episode extraction JSON only, groups lesson candidates by ETA category, and writes cluster drafts under `.corpus/acquiring-minds/extractions/clusters/`. It supports `--sample`, `--limit`, `--all`, `--force`, `--retry-failed`, `--dry-run`, `--cluster-model`, and `--max-candidates-per-category`. The default cluster model is `AMKB_CLUSTER_MODEL` or `gpt-5.2`.
+`lessons:cluster` reads episode extraction JSON only, groups lesson candidates by ETA category, and writes cluster drafts under `.corpus/acquiring-minds/extractions/clusters/`. It supports `--sample`, `--limit`, `--all`, `--force`, `--retry-failed`, `--dry-run`, `--cluster-model`, and `--max-candidates-per-category`. The default cluster model is `AMKB_CLUSTER_MODEL` or `gpt-5.5`.
 
 `lessons:promote` validates a reviewed cluster file and replaces the curated UI lesson dataset only after that review step. Generated clusters are not promoted automatically.
