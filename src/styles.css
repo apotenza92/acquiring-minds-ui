@@ -16,6 +16,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 button,
@@ -30,14 +31,18 @@ a {
 .shell {
   display: grid;
   grid-template-columns: 264px minmax(0, 1fr);
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .sidebar {
   display: flex;
   flex-direction: column;
   gap: 28px;
+  min-height: 0;
   padding: 28px 18px;
+  overflow: hidden;
   border-right: 1px solid #d8d4ca;
   background: #ebe7dd;
 }
@@ -61,6 +66,9 @@ a {
 .category-rail {
   display: grid;
   gap: 3px;
+  min-height: 0;
+  overflow: auto;
+  padding-right: 2px;
 }
 
 .category-button,
@@ -100,7 +108,9 @@ a {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   min-width: 0;
-  min-height: 100vh;
+  min-height: 0;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .topbar {
@@ -149,6 +159,7 @@ a {
   display: grid;
   grid-template-columns: minmax(280px, 38%) minmax(0, 1fr);
   min-height: 0;
+  overflow: hidden;
 }
 
 .lesson-list {
@@ -188,6 +199,7 @@ a {
 
 .lesson-detail {
   overflow: auto;
+  min-height: 0;
   padding: 42px clamp(24px, 5vw, 72px);
   background: #fbfaf7;
 }
@@ -247,17 +259,15 @@ a {
 }
 
 .footnote {
-  position: sticky;
-  bottom: 0;
   z-index: 10;
   display: flex;
   gap: 10px;
   overflow-x: auto;
   min-height: 76px;
+  max-height: 108px;
   padding: 12px 24px;
   border-top: 1px solid #d8d4ca;
   background: #f7f5f0;
-  box-shadow: 0 -8px 22px rgb(23 33 27 / 8%);
 }
 
 .source-chip {
@@ -304,11 +314,14 @@ a {
 @media (max-width: 900px) {
   .shell {
     grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
   }
 
   .sidebar {
     gap: 16px;
     padding: 18px;
+    min-height: auto;
+    overflow: hidden;
     border-right: 0;
     border-bottom: 1px solid #d8d4ca;
   }
@@ -316,7 +329,10 @@ a {
   .category-rail {
     display: flex;
     overflow-x: auto;
+    overflow-y: hidden;
     gap: 6px;
+    padding-right: 0;
+    padding-bottom: 2px;
   }
 
   .category-button {
@@ -326,7 +342,8 @@ a {
   }
 
   .workspace {
-    min-height: auto;
+    height: auto;
+    min-height: 0;
   }
 
   .topbar {
@@ -336,6 +353,7 @@ a {
 
   .content-grid {
     grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
   }
 
   .lesson-list {
@@ -343,6 +361,7 @@ a {
     grid-auto-flow: column;
     grid-auto-columns: minmax(240px, 78vw);
     overflow-x: auto;
+    overflow-y: hidden;
     border-right: 0;
     border-bottom: 1px solid #d8d4ca;
   }
@@ -357,8 +376,8 @@ a {
   }
 
   .lesson-detail {
-    min-height: 420px;
-    padding: 30px 22px 116px;
+    min-height: 0;
+    padding: 30px 22px;
   }
 
   .lesson-detail h1 {
