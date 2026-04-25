@@ -8,6 +8,7 @@ interface VitestUserConfig extends UserConfig {
     environment: string;
     globals: boolean;
     setupFiles: string;
+    exclude: string[];
   };
 }
 
@@ -32,5 +33,6 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: "./vitest.setup.ts",
+    exclude: ["tests/e2e/**", "node_modules/**", "dist/**"],
   },
 } as VitestUserConfig);
