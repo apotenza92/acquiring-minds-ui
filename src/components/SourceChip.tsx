@@ -7,8 +7,10 @@ interface SourceChipProps {
 }
 
 export function SourceChip({ episode, source }: SourceChipProps) {
+  const href = source.youtubeUrl ?? source.officialUrl ?? source.audioUrl;
+
   return (
-    <a className="source-chip" href={source.officialUrl} target="_blank" rel="noreferrer">
+    <a className="source-chip" href={href} target="_blank" rel="noreferrer">
       <span>
         {episode.guest} / {source.timestamp}
       </span>

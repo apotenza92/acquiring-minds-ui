@@ -27,21 +27,21 @@
       "transcriptAvailability": "summary-only"
     },
     {
-      "id": "eric-donahue-paving",
+      "id": "eric-donahue-peninsula-paving",
       "podcastId": "acquiring-minds",
       "title": "40% Growth in Year 1 of a Paving Business",
       "guest": "Eric Donahue",
       "date": "2026-03-23",
-      "officialUrl": "https://acquiringminds.co/articles/eric-donahue-paving",
+      "officialUrl": "https://acquiringminds.co/articles/eric-donahue-peninsula-paving",
       "transcriptAvailability": "official"
     },
     {
-      "id": "phil-koller-comfortable-concentration",
+      "id": "philip-koller-roman-enterprises",
       "podcastId": "acquiring-minds",
       "title": "Comfortable Concentration for a $800k SDE Business",
       "guest": "Phil Koller",
       "date": "2026-01-08",
-      "officialUrl": "https://acquiringminds.co/articles/phil-koller-comfortable-concentration",
+      "officialUrl": "https://acquiringminds.co/articles/philip-koller-roman-enterprises",
       "transcriptAvailability": "official"
     }
   ],
@@ -178,9 +178,9 @@
           "officialUrl": "https://acquiringminds.co/articles/joe-wynn-surgical-specialties"
         },
         {
-          "episodeId": "eric-donahue-paving",
+          "episodeId": "eric-donahue-peninsula-paving",
           "timestamp": "00:35:00",
-          "officialUrl": "https://acquiringminds.co/articles/eric-donahue-paving"
+          "officialUrl": "https://acquiringminds.co/articles/eric-donahue-peninsula-paving"
         }
       ]
     },
@@ -197,9 +197,9 @@
       "tags": ["concentration", "risk", "underwriting"],
       "evidence": [
         {
-          "episodeId": "phil-koller-comfortable-concentration",
+          "episodeId": "philip-koller-roman-enterprises",
           "timestamp": "00:10:00",
-          "officialUrl": "https://acquiringminds.co/articles/phil-koller-comfortable-concentration"
+          "officialUrl": "https://acquiringminds.co/articles/philip-koller-roman-enterprises"
         }
       ]
     }

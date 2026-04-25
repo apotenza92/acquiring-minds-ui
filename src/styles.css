@@ -247,6 +247,9 @@ a {
 }
 
 .footnote {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
   display: flex;
   gap: 10px;
   overflow-x: auto;
@@ -254,6 +257,7 @@ a {
   padding: 12px 24px;
   border-top: 1px solid #d8d4ca;
   background: #f7f5f0;
+  box-shadow: 0 -8px 22px rgb(23 33 27 / 8%);
 }
 
 .source-chip {
@@ -354,7 +358,7 @@ a {
 
   .lesson-detail {
     min-height: 420px;
-    padding: 30px 22px;
+    padding: 30px 22px 116px;
   }
 
   .lesson-detail h1 {
