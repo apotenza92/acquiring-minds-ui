@@ -1,10 +1,14 @@
 import { expect, test } from "@playwright/test";
+import { readFileSync } from "node:fs";
+
+const knowledgeBase = JSON.parse(readFileSync("src/data/acquiring-minds.lessons.json", "utf8"));
 
 test.describe("knowledge base UI", () => {
   test("keeps layout panels independently scrollable on desktop", async ({ page }) => {
+    const firstLesson = knowledgeBase.lessons[0];
     await page.goto("/");
 
-    await expect(page.getByRole("heading", { name: /buyer fit can become deal leverage/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: firstLesson.title })).toBeVisible();
     await expect(page.getByRole("region", { name: "Source", exact: true })).toBeVisible();
 
     const layout = await page.evaluate(() => {
@@ -42,23 +46,28 @@ test.describe("knowledge base UI", () => {
   });
 
   test("shows source chips without transcript text and links to live source pages", async ({ page }) => {
+    const firstLesson = knowledgeBase.lessons[0];
+    const firstSource = firstLesson.evidence[0];
+    const firstEpisode = knowledgeBase.episodes.find((episode: { id: string }) => episode.id === firstSource.episodeId);
     await page.goto("/");
 
     const source = page.getByRole("region", { name: "Source", exact: true }).getByRole("link").first();
-    await expect(source).toContainText("Joe Wynn");
-    await expect(source).toContainText("Discussed at around 3 minutes");
+    await expect(source).toContainText(firstEpisode.guest);
+    await expect(source).toContainText(firstEpisode.title);
+    await expect(source).toContainText("Discussed");
 
     const href = await source.getAttribute("href");
-    expect(href).toBe("https://acquiringminds.co/articles/joe-wynn-surgical-specialties");
+    expect(href).toBe(firstSource.youtubeUrl ?? firstSource.officialUrl ?? firstSource.audioUrl);
     await expect(page.getByText(/Will Smith:/)).toHaveCount(0);
   });
 
   test("filters lessons while keeping source evidence in the article", async ({ page }) => {
+    const targetLesson = knowledgeBase.lessons[Math.min(10, knowledgeBase.lessons.length - 1)];
     await page.goto("/");
 
-    await page.getByLabel("Search lessons").fill("liquidity");
+    await page.getByLabel("Search lessons").fill(targetLesson.title);
 
-    await expect(page.getByRole("heading", { name: /post-close liquidity/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: targetLesson.title })).toBeVisible();
     await expect(page.getByRole("region", { name: "Source", exact: true })).toBeVisible();
   });
 });

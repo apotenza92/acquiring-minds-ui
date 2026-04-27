@@ -304,9 +304,71 @@ export function validateLessonClusterFile(value) {
   return value;
 }
 
-export function toUiKnowledgeBase(existingKnowledgeBase, reviewedClusterFile) {
+function normaliseTranscriptAvailability(value) {
+  if (["official", "youtube-auto", "local-whisper", "summary-only", "unknown"].includes(value)) {
+    return value;
+  }
+  return "unknown";
+}
+
+function dateFromPublishedAt(value) {
+  if (typeof value !== "string" || !value.trim()) {
+    return undefined;
+  }
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return undefined;
+  }
+  return date.toISOString().slice(0, 10);
+}
+
+function optionalString(value) {
+  return typeof value === "string" && value.trim() ? value : undefined;
+}
+
+export function toUiEpisodeSource(episode) {
+  assertRecord(episode, "episode");
+  assertString(episode.id, "episode.id");
+  assertString(episode.podcastId, "episode.podcastId");
+  assertString(episode.title, "episode.title");
+  assertString(episode.guest, "episode.guest");
+  assertString(episode.officialUrl, "episode.officialUrl");
+
+  const date = optionalString(episode.date) ?? dateFromPublishedAt(episode.rssPublishedAt) ?? "Unknown date";
+  return {
+    id: episode.id,
+    podcastId: episode.podcastId,
+    title: episode.title,
+    guest: episode.guest,
+    date,
+    officialUrl: episode.officialUrl,
+    ...(optionalString(episode.youtubeUrl) ? { youtubeUrl: optionalString(episode.youtubeUrl) } : {}),
+    ...(optionalString(episode.audioUrl) ? { audioUrl: optionalString(episode.audioUrl) } : {}),
+    transcriptAvailability: normaliseTranscriptAvailability(episode.transcriptAvailability),
+  };
+}
+
+export function mergeEpisodeSources(existingEpisodes, corpusEpisodes = []) {
+  const byId = new Map();
+  for (const episode of corpusEpisodes) {
+    byId.set(episode.id, toUiEpisodeSource(episode));
+  }
+  for (const episode of existingEpisodes) {
+    byId.set(episode.id, toUiEpisodeSource(episode));
+  }
+  return Array.from(byId.values()).sort((a, b) => {
+    const dateComparison = b.date.localeCompare(a.date);
+    if (dateComparison !== 0) {
+      return dateComparison;
+    }
+    return a.title.localeCompare(b.title);
+  });
+}
+
+export function toUiKnowledgeBase(existingKnowledgeBase, reviewedClusterFile, options = {}) {
   const clusterFile = validateLessonClusterFile(reviewedClusterFile);
-  const episodeIds = new Set(existingKnowledgeBase.episodes.map((episode) => episode.id));
+  const episodes = mergeEpisodeSources(existingKnowledgeBase.episodes, options.episodes);
+  const episodeIds = new Set(episodes.map((episode) => episode.id));
   const lessons = clusterFile.lessons.map((lesson) => ({
     id: lesson.id,
     title: lesson.title,
@@ -330,6 +392,7 @@ export function toUiKnowledgeBase(existingKnowledgeBase, reviewedClusterFile) {
 
   return {
     ...existingKnowledgeBase,
+    episodes,
     lessons,
   };
 }

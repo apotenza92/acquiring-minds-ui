@@ -9,16 +9,19 @@ await ensureCorpusDirs();
 
 const inputPath = resolve(getArg("--input") ?? corpusPaths.reviewedLessons);
 const outputPath = resolve(getArg("--output") ?? "src/data/acquiring-minds.lessons.json");
+const episodesArg = getArg("--episodes");
+const episodeIndexPath = episodesArg === "none" ? undefined : resolve(episodesArg ?? corpusPaths.episodes);
 const dryRun = hasFlag("--dry-run");
 
 const existingKnowledgeBase = JSON.parse(await readFile(outputPath, "utf8"));
 const reviewedClusterFile = await readJsonFile(inputPath);
+const corpusEpisodes = episodeIndexPath ? await readJsonFile(episodeIndexPath, []) : [];
 
 if (!reviewedClusterFile) {
   throw new Error(`Reviewed lesson file not found: ${inputPath}`);
 }
 
-const promoted = toUiKnowledgeBase(existingKnowledgeBase, reviewedClusterFile);
+const promoted = toUiKnowledgeBase(existingKnowledgeBase, reviewedClusterFile, { episodes: corpusEpisodes });
 
 if (!dryRun) {
   await writeJsonFile(outputPath, promoted);
@@ -29,6 +32,7 @@ writeJson({
   dryRun,
   input: inputPath,
   output: outputPath,
+  episodeIndex: episodeIndexPath ?? null,
   source: reviewedInputLabel(inputPath),
   podcast: promoted.podcast.id,
   episodes: promoted.episodes.length,

@@ -6,6 +6,7 @@ import {
   buildTranscriptChunks,
   parseJsonOutput,
   shouldSkipJob,
+  mergeEpisodeSources,
   toUiKnowledgeBase,
   validateEpisodeExtraction,
   validateLessonClusterFile,
@@ -196,6 +197,27 @@ describe("lesson extraction helpers", () => {
         youtubeUrl: episode.youtubeUrl,
         audioUrl: episode.audioUrl,
       }],
+    }]);
+  });
+
+  it("merges corpus episode metadata and derives dates from RSS publish timestamps", () => {
+    const merged = mergeEpisodeSources([], [{
+      ...episode,
+      date: "",
+      rssPublishedAt: "Tue, 22 Feb 2022 03:00:00 -0500",
+      transcriptAvailability: "youtube-auto",
+    }]);
+
+    expect(merged).toEqual([{
+      id: "episode-one",
+      podcastId: "acquiring-minds",
+      title: "Episode One",
+      guest: "Guest",
+      date: "2022-02-22",
+      officialUrl: "https://example.test/episode-one",
+      youtubeUrl: "https://youtube.test/watch?v=one",
+      audioUrl: "https://example.test/audio.mp3",
+      transcriptAvailability: "youtube-auto",
     }]);
   });
 });

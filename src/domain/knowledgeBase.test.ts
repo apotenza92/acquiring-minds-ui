@@ -20,13 +20,17 @@ describe("knowledge base data", () => {
 describe("searchLessons", () => {
   it("filters by category", () => {
     const results = searchLessons(knowledgeBase.lessons, "", "financing-terms");
+    const expectedCount = knowledgeBase.lessons.filter((lesson) => lesson.category === "financing-terms").length;
 
-    expect(results).toHaveLength(1);
-    expect(results[0].category).toBe("financing-terms");
+    expect(results).toHaveLength(expectedCount);
+    expect(results.every((lesson) => lesson.category === "financing-terms")).toBe(true);
   });
 
   it("matches lesson, tag, and source episode text", () => {
-    expect(searchLessons(knowledgeBase.lessons, "supplier", "all").length).toBeGreaterThan(0);
-    expect(searchLessons(knowledgeBase.lessons, "Joe Wynn", "all").length).toBeGreaterThan(0);
+    const firstLesson = knowledgeBase.lessons[0];
+    const firstEpisode = knowledgeBase.episodes.find((episode) => episode.id === firstLesson.evidence[0].episodeId);
+
+    expect(searchLessons(knowledgeBase.lessons, firstLesson.tags[0], "all").length).toBeGreaterThan(0);
+    expect(searchLessons(knowledgeBase.lessons, firstEpisode?.guest ?? "", "all").length).toBeGreaterThan(0);
   });
 });
