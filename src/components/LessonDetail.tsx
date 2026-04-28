@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import { categoryLabels } from "../data/categories";
+import { numberedCategoryLabels } from "../data/categories";
 import type { EpisodeSource, EvidenceSource, Lesson } from "../domain/types";
 import { SourceChip } from "./SourceChip";
 
@@ -21,7 +21,7 @@ export function LessonDetail({ lesson, sources, onBack }: LessonDetailProps) {
           Articles
         </button>
       ) : null}
-      <div className="lesson-kicker">{categoryLabels[lesson.category]}</div>
+      <div className="lesson-kicker">{numberedCategoryLabels[lesson.category]}</div>
       <h1 id="lesson-title">{lesson.title}</h1>
       <p>{lesson.summary}</p>
 

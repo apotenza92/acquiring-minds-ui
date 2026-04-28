@@ -1,5 +1,5 @@
 import rawKnowledgeBase from "../data/acquiring-minds.lessons.json";
-import { categories } from "../data/categories";
+import { categories, categoryOrder } from "../data/categories";
 import type { KnowledgeBase, Lesson, LessonCategoryId } from "./types";
 
 const categoryIds = new Set(categories.map((category) => category.id));
@@ -129,5 +129,14 @@ export function searchLessons(lessons: Lesson[], query: string, category: Lesson
 
       return haystack.includes(needle);
     })
-    .sort((a, b) => a.title.localeCompare(b.title));
+    .sort((a, b) => {
+      if (category === "all") {
+        const categoryComparison = categoryOrder[a.category] - categoryOrder[b.category];
+        if (categoryComparison !== 0) {
+          return categoryComparison;
+        }
+      }
+
+      return a.title.localeCompare(b.title);
+    });
 }

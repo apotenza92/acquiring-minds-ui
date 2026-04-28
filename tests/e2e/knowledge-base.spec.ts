@@ -81,10 +81,11 @@ test.describe("knowledge base UI", () => {
     await page.getByRole("button", { name: "Open categories" }).click();
     const drawerNavigation = page.locator("#mobile-category-menu").getByRole("navigation");
     await expect(drawerNavigation).toBeVisible();
+    await expect(drawerNavigation.getByRole("button", { name: /1\. Buyer Fit/ })).toBeVisible();
 
-    await drawerNavigation.getByRole("button", { name: /Financing & Terms/ }).click();
+    await drawerNavigation.getByRole("button", { name: /4\. Financing & Terms/ }).click();
     await expect(drawerNavigation).toBeHidden();
-    await expect(page.getByRole("region", { name: "Lessons" })).toContainText("Financing & Terms");
+    await expect(page.getByRole("region", { name: "Lessons" })).toContainText("4. Financing & Terms");
   });
 
   test("opens mobile articles from a scrollable list screen", async ({ page }) => {
@@ -101,5 +102,16 @@ test.describe("knowledge base UI", () => {
 
     await page.getByRole("button", { name: "Articles" }).click();
     await expect(page.getByRole("region", { name: "Lessons" })).toBeVisible();
+  });
+
+  test("orders the all list by numbered ETA category", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+
+    const firstRows = await page.getByRole("region", { name: "Lessons" }).getByRole("button").evaluateAll((rows) =>
+      rows.slice(0, 3).map((row) => row.textContent ?? ""),
+    );
+
+    expect(firstRows.every((text) => text.includes("1. Buyer Fit"))).toBe(true);
   });
 });

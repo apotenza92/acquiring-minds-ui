@@ -16,3 +16,11 @@ export const categories: LessonCategory[] = [
 export const categoryLabels = Object.fromEntries(
   categories.map((category) => [category.id, category.label]),
 ) as Record<LessonCategory["id"], string>;
+
+export const categoryOrder = Object.fromEntries(
+  categories.map((category, index) => [category.id, index]),
+) as Record<LessonCategory["id"], number>;
+
+export const numberedCategoryLabels = Object.fromEntries(
+  categories.map((category, index) => [category.id, `${index + 1}. ${category.label}`]),
+) as Record<LessonCategory["id"], string>;

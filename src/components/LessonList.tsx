@@ -1,4 +1,4 @@
-import { categoryLabels } from "../data/categories";
+import { numberedCategoryLabels } from "../data/categories";
 import type { Lesson } from "../domain/types";
 
 interface LessonListProps {
@@ -17,7 +17,7 @@ export function LessonList({ lessons, selectedLessonId, onSelectLesson }: Lesson
           type="button"
           onClick={() => onSelectLesson(lesson.id)}
         >
-          <span>{categoryLabels[lesson.category]}</span>
+          <span>{numberedCategoryLabels[lesson.category]}</span>
           <strong>{lesson.title}</strong>
         </button>
       ))}

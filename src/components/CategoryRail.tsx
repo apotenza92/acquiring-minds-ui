@@ -21,14 +21,14 @@ export function CategoryRail({ counts, selectedCategory, onSelectCategory }: Cat
         <span>{counts.get("all") ?? 0}</span>
       </button>
 
-      {categories.map((category) => (
+      {categories.map((category, index) => (
         <button
           className={selectedCategory === category.id ? "category-button active" : "category-button"}
           key={category.id}
           type="button"
           onClick={() => onSelectCategory(category.id)}
         >
-          <span>{category.label}</span>
+          <span>{index + 1}. {category.label}</span>
           <span>{counts.get(category.id) ?? 0}</span>
         </button>
       ))}
