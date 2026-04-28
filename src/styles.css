@@ -226,6 +226,10 @@ a {
   background: #fbfaf7;
 }
 
+.detail-back {
+  display: none;
+}
+
 .lesson-kicker {
   margin-bottom: 14px;
   color: #627068;
@@ -445,34 +449,59 @@ a {
 
   .content-grid {
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(128px, 32dvh) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     height: 100%;
     min-height: 0;
   }
 
   .lesson-list {
     display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(240px, 78vw);
-    overflow-x: auto;
-    overflow-y: hidden;
+    grid-auto-flow: row;
+    grid-auto-rows: minmax(86px, auto);
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-right: 0;
+    border-bottom: 0;
+  }
+
+  .lesson-row {
+    min-height: 86px;
+    padding: 16px 18px;
     border-right: 0;
     border-bottom: 1px solid #d8d4ca;
   }
 
-  .lesson-row {
-    min-height: 128px;
-    border-right: 1px solid #d8d4ca;
-    border-bottom: 0;
+  .lesson-row.active {
+    box-shadow: none;
   }
 
-  .lesson-row.active {
-    box-shadow: inset 0 -3px 0 #2e5f44;
+  .content-grid.detail-open .lesson-list,
+  .content-grid:not(.detail-open) .lesson-detail {
+    display: none;
+  }
+
+  .content-grid.detail-open .lesson-detail {
+    display: block;
   }
 
   .lesson-detail {
     min-height: 0;
     padding: 26px 18px;
+  }
+
+  .detail-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    margin: 0 0 22px;
+    padding: 0;
+    border: 0;
+    color: #385341;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.92rem;
+    font-weight: 650;
   }
 
   .lesson-detail h1 {

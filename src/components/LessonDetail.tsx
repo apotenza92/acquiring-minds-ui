@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import { categoryLabels } from "../data/categories";
 import type { EpisodeSource, EvidenceSource, Lesson } from "../domain/types";
 import { SourceChip } from "./SourceChip";
@@ -8,11 +9,18 @@ interface LessonDetailProps {
     episode: EpisodeSource;
     source: EvidenceSource;
   }>;
+  onBack?: () => void;
 }
 
-export function LessonDetail({ lesson, sources }: LessonDetailProps) {
+export function LessonDetail({ lesson, sources, onBack }: LessonDetailProps) {
   return (
     <article className="lesson-detail" aria-labelledby="lesson-title">
+      {onBack ? (
+        <button className="detail-back" type="button" onClick={onBack}>
+          <ArrowLeft aria-hidden="true" size={18} />
+          Articles
+        </button>
+      ) : null}
       <div className="lesson-kicker">{categoryLabels[lesson.category]}</div>
       <h1 id="lesson-title">{lesson.title}</h1>
       <p>{lesson.summary}</p>

@@ -12,6 +12,7 @@ type SelectedCategory = LessonCategoryId | "all";
 export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<SelectedCategory>("all");
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
+  const [isArticleOpen, setIsArticleOpen] = useState(false);
   const [query, setQuery] = useState("");
   const filteredLessons = useMemo(
     () => searchLessons(knowledgeBase.lessons, query, selectedCategory),
@@ -59,6 +60,7 @@ export default function App() {
   const selectCategory = (category: SelectedCategory) => {
     setSelectedCategory(category);
     setSelectedLessonId(undefined);
+    setIsArticleOpen(false);
     setIsCategoryMenuOpen(false);
   };
 
@@ -95,6 +97,7 @@ export default function App() {
               onChange={(event) => {
                 setQuery(event.target.value);
                 setSelectedLessonId(undefined);
+                setIsArticleOpen(false);
               }}
               placeholder="Search lessons"
               aria-label="Search lessons"
@@ -107,15 +110,22 @@ export default function App() {
           </div>
         </header>
 
-        <div className="content-grid">
+        <div className={isArticleOpen ? "content-grid detail-open" : "content-grid"}>
           <LessonList
             lessons={filteredLessons}
             selectedLessonId={selectedLesson?.id}
-            onSelectLesson={setSelectedLessonId}
+            onSelectLesson={(lessonId) => {
+              setSelectedLessonId(lessonId);
+              setIsArticleOpen(true);
+            }}
           />
 
           {selectedLesson ? (
-            <LessonDetail lesson={selectedLesson} sources={selectedSources} />
+            <LessonDetail
+              lesson={selectedLesson}
+              sources={selectedSources}
+              onBack={() => setIsArticleOpen(false)}
+            />
           ) : (
             <section className="empty-state" aria-live="polite">
               No lessons found.
@@ -142,9 +152,9 @@ export default function App() {
           </div>
           <button
             className="menu-button"
-            type="button"
-            aria-label="Close categories"
-            onClick={() => setIsCategoryMenuOpen(false)}
+          type="button"
+          aria-label="Close categories"
+          onClick={() => setIsCategoryMenuOpen(false)}
           >
             <X aria-hidden="true" size={20} />
           </button>

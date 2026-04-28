@@ -86,4 +86,20 @@ test.describe("knowledge base UI", () => {
     await expect(drawerNavigation).toBeHidden();
     await expect(page.getByRole("region", { name: "Lessons" })).toContainText("Financing & Terms");
   });
+
+  test("opens mobile articles from a scrollable list screen", async ({ page }) => {
+    const firstLesson = knowledgeBase.lessons[0];
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+
+    await expect(page.getByRole("region", { name: "Lessons" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: firstLesson.title })).toBeHidden();
+
+    await page.getByRole("button", { name: new RegExp(firstLesson.title) }).click();
+    await expect(page.getByRole("region", { name: "Lessons" })).toBeHidden();
+    await expect(page.getByRole("heading", { name: firstLesson.title })).toBeVisible();
+
+    await page.getByRole("button", { name: "Articles" }).click();
+    await expect(page.getByRole("region", { name: "Lessons" })).toBeVisible();
+  });
 });
