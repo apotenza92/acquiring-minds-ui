@@ -1,5 +1,5 @@
-import { Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Menu, Search, X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { CategoryRail } from "./components/CategoryRail";
 import { LessonDetail } from "./components/LessonDetail";
 import { LessonList } from "./components/LessonList";
@@ -11,6 +11,7 @@ type SelectedCategory = LessonCategoryId | "all";
 
 export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<SelectedCategory>("all");
+  const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const filteredLessons = useMemo(
     () => searchLessons(knowledgeBase.lessons, query, selectedCategory),
@@ -40,9 +41,30 @@ export default function App() {
     return counts;
   }, []);
 
+  useEffect(() => {
+    if (!isCategoryMenuOpen) {
+      return undefined;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsCategoryMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isCategoryMenuOpen]);
+
+  const selectCategory = (category: SelectedCategory) => {
+    setSelectedCategory(category);
+    setSelectedLessonId(undefined);
+    setIsCategoryMenuOpen(false);
+  };
+
   return (
     <main className="shell">
-      <aside className="sidebar" aria-label="Knowledge categories">
+      <aside className="sidebar desktop-sidebar" aria-label="Knowledge categories">
         <div className="brand">
           <span>{knowledgeBase.podcast.title}</span>
           <strong>Knowledge Base</strong>
@@ -50,15 +72,22 @@ export default function App() {
         <CategoryRail
           counts={categoryCounts}
           selectedCategory={selectedCategory}
-          onSelectCategory={(category) => {
-            setSelectedCategory(category);
-            setSelectedLessonId(undefined);
-          }}
+          onSelectCategory={selectCategory}
         />
       </aside>
 
       <section className="workspace">
         <header className="topbar">
+          <button
+            className="menu-button"
+            type="button"
+            aria-label="Open categories"
+            aria-expanded={isCategoryMenuOpen}
+            aria-controls="mobile-category-menu"
+            onClick={() => setIsCategoryMenuOpen(true)}
+          >
+            <Menu aria-hidden="true" size={20} />
+          </button>
           <label className="search">
             <Search aria-hidden="true" size={18} />
             <input
@@ -94,6 +123,41 @@ export default function App() {
           )}
         </div>
       </section>
+
+      <div
+        className={isCategoryMenuOpen ? "drawer-backdrop open" : "drawer-backdrop"}
+        aria-hidden="true"
+        onClick={() => setIsCategoryMenuOpen(false)}
+      />
+      <aside
+        id="mobile-category-menu"
+        className={isCategoryMenuOpen ? "mobile-drawer open" : "mobile-drawer"}
+        aria-label="Knowledge categories"
+        aria-hidden={!isCategoryMenuOpen}
+      >
+        <div className="drawer-header">
+          <div className="brand">
+            <span>{knowledgeBase.podcast.title}</span>
+            <strong>Knowledge Base</strong>
+          </div>
+          <button
+            className="menu-button"
+            type="button"
+            aria-label="Close categories"
+            onClick={() => setIsCategoryMenuOpen(false)}
+          >
+            <X aria-hidden="true" size={20} />
+          </button>
+        </div>
+        <CategoryRail
+          counts={categoryCounts}
+          selectedCategory={selectedCategory}
+          onSelectCategory={selectCategory}
+        />
+        <a className="drawer-source-link" href={knowledgeBase.podcast.episodeIndexUrl} target="_blank" rel="noreferrer">
+          Official episodes
+        </a>
+      </aside>
     </main>
   );
 }

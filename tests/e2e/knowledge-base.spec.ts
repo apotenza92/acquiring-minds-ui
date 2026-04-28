@@ -70,4 +70,20 @@ test.describe("knowledge base UI", () => {
     await expect(page.getByRole("heading", { name: targetLesson.title })).toBeVisible();
     await expect(page.getByRole("region", { name: "Source", exact: true })).toBeVisible();
   });
+
+  test("uses a hamburger category drawer on mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+
+    await expect(page.getByRole("button", { name: "Open categories" })).toBeVisible();
+    await expect(page.getByRole("navigation")).toBeHidden();
+
+    await page.getByRole("button", { name: "Open categories" }).click();
+    const drawerNavigation = page.locator("#mobile-category-menu").getByRole("navigation");
+    await expect(drawerNavigation).toBeVisible();
+
+    await drawerNavigation.getByRole("button", { name: /Financing & Terms/ }).click();
+    await expect(drawerNavigation).toBeHidden();
+    await expect(page.getByRole("region", { name: "Lessons" })).toContainText("Financing & Terms");
+  });
 });
